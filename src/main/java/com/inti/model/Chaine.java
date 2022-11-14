@@ -5,8 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -19,17 +17,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Hotel {
+public class Chaine {
+
 	@Id
-	protected int numero;
-	protected String numTel;
-	protected String adresse;
+	protected int idC;
+	protected String nomC;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
-	private List<Salarie> lSalarie;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idChaine")
-	protected Chaine chaine;
-
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "chaine")
+	private List<Chaine> lChaine;
 }
