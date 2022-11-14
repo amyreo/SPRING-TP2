@@ -2,6 +2,8 @@ package com.inti.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,6 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Salarie {
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	protected int reference;
 	protected String type;
 	protected String dateN;
