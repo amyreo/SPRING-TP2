@@ -11,48 +11,48 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inti.model.Hotel;
-import com.inti.repository.IHotelRepository;
+import com.inti.model.Salarie;
+import com.inti.repository.ISalarieRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/Hotel")
+@RequestMapping("/Salarie")
 @Slf4j
-public class HotelController {
+public class SalarieController {
 	
 	@Autowired
-	IHotelRepository ihr;
+	ISalarieRepository isr;
 	
-	@GetMapping("/listeHotel")
-	public List<Hotel> getHotels() {
-		return ihr.findAll();
+	@GetMapping("/listeSalarie")
+	public List<Salarie> getSalaries() {
+		return isr.findAll();
 	}
 
-	@PostMapping("/saveHotel")
-	public boolean saveHotel(@RequestBody Hotel h) {
-		if (h.getNumero() > 0) {
-			log.info("Le Hotel a été enregisté");
-			ihr.save(h);
+	@PostMapping("/saveSalarie")
+	public boolean saveSalarie(@RequestBody Salarie s) {
+		if (s.getReference() > 0) {
+			log.info("Le Salarie a été enregisté");
+			isr.save(s);
 			return true;
 		}
 		return false;
 	}
 	
-	@GetMapping("/getHotel/{numero}")
-	public Hotel getHotel(@PathVariable int numero) {
+	@GetMapping("/getSalarie/{numero}")
+	public Salarie getSalarie(@PathVariable int numero) {
 		try {
-			ihr.findById(numero).get();
+			isr.findById(numero).get();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	@DeleteMapping("/deleteHotel/{numero}")
-	public boolean deleteHotel(@PathVariable int numero) {
+	@DeleteMapping("/deleteSalarie/{numero}")
+	public boolean deleteSalarie(@PathVariable int numero) {
 		if (numero != 0) {
-			ihr.deleteById(numero);
+			isr.deleteById(numero);
 			return true;
 		}
 		return false;

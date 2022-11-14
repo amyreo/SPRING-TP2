@@ -1,11 +1,10 @@
 package com.inti.model;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -17,13 +16,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Hotel {
+public class Salarie {
 	@Id
-	protected int numero;
-	protected String numTel;
-	protected String adresse;
+	protected int reference;
+	protected String type;
+	protected String dateN;
+	protected String dateE;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "hotel")
-	private List<Salarie> lSalarie;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "idHotel")
+	protected Hotel hotel;
 
 }
