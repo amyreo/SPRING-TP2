@@ -24,5 +24,5 @@ public class Chaine {
 	protected String nomC;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "chaine")
-	private List<Chaine> lChaine;
+	private List<Hotel> lHotel;
 }

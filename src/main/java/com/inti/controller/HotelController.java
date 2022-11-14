@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inti.model.Hotel;
+import com.inti.model.Salarie;
 import com.inti.repository.IHotelRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/Hotel")
 @Slf4j
 public class HotelController {
-	
+
 	@Autowired
 	IHotelRepository ihr;
-	
+
 	@GetMapping("/listeHotel")
 	public List<Hotel> getHotels() {
 		return ihr.findAll();
@@ -38,7 +39,7 @@ public class HotelController {
 		}
 		return false;
 	}
-	
+
 	@GetMapping("/getHotel/{numero}")
 	public Hotel getHotel(@PathVariable int numero) {
 		try {
@@ -56,6 +57,26 @@ public class HotelController {
 			return true;
 		}
 		return false;
+	}
+
+	@PostMapping("ajoutSalarie/{idH}")
+	public boolean associerSalarieToHotel(@PathVariable int idH, @RequestBody Salarie sal) {
+
+		try {
+			Hotel hotel = ihr.findById(idH).get();
+			List<Salarie> listeSalarie = hotel.getLSalarie();
+			listeSalarie.add(sal);
+			log.debug("On a ajouté le salarié à la liste");
+
+			hotel.setLSalarie(listeSalarie);
+			ihr.save(hotel);
+			return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+
 	}
 
 }

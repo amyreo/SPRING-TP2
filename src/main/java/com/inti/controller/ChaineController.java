@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inti.model.Chaine;
+import com.inti.model.Hotel;
 import com.inti.repository.IChaineRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,29 +21,29 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/Chaine")
 @Slf4j
 public class ChaineController {
-	
+
 	@Autowired
-	IChaineRepository ihr;
-	
+	IChaineRepository icr;
+
 	@GetMapping("/listeChaine")
 	public List<Chaine> getChaines() {
-		return ihr.findAll();
+		return icr.findAll();
 	}
 
 	@PostMapping("/saveChaine")
 	public boolean saveChaine(@RequestBody Chaine c) {
 		if (c.getIdC() > 0) {
 			log.info("Le Chaine a été enregisté");
-			ihr.save(c);
+			icr.save(c);
 			return true;
 		}
 		return false;
 	}
-	
+
 	@GetMapping("/getChaine/{numero}")
 	public Chaine getChaine(@PathVariable int numero) {
 		try {
-			ihr.findById(numero).get();
+			icr.findById(numero).get();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -52,10 +53,30 @@ public class ChaineController {
 	@DeleteMapping("/deleteChaine/{numero}")
 	public boolean deleteChaine(@PathVariable int numero) {
 		if (numero != 0) {
-			ihr.deleteById(numero);
+			icr.deleteById(numero);
 			return true;
 		}
 		return false;
+	}
+
+	@PostMapping("ajoutHotel/{idC}")
+	public boolean associerHotelToChaine(@PathVariable int idC, @RequestBody Hotel hot) {
+
+		try {
+			Chaine chaine = icr.findById(idC).get();
+			List<Hotel> listeHotel = chaine.getLHotel();
+			listeHotel.add(hot);
+			log.debug("On a ajouté l'hotel à la liste");
+
+			chaine.setLHotel(listeHotel);
+			icr.save(chaine);
+			return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+
 	}
 
 }
